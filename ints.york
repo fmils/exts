@@ -3,4 +3,5 @@ module exts.ints {}
 
 extend int {
     bool isEven() => self % 2 == 0;
+    bool isOdd() => self % 2 == 1;
 }
