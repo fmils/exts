@@ -1,0 +1,7 @@
+@1.0.0
+
+module exts.ints {}
+
+extend int {
+    bool isEven() => self % 2 == 0;
+}
