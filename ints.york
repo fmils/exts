@@ -1,7 +1,8 @@
 @0.0.0
+
 module exts.ints {}
 
 extend int {
-    bool isEven() => self % 2 == 0;
-    bool isOdd() => self % 2 == 1;
+    fn<bool> self isEven() => self % 2 == 0;
+    fn<bool> self isOdd() => self % 2 == 1;
 }
