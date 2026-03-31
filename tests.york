@@ -1,4 +1,5 @@
 @0.0.0
+
 module exts.tests {}
 
-export bool isEven(int x) => x % 2 == 0;
+export fn<bool> isEven(int x) => x % 2 == 0;
