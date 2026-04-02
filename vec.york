@@ -1,4 +1,4 @@
-@0.0.0
+@1.0.0
 
 module exts.vec {
     requires libs.memory;
@@ -32,16 +32,16 @@ class Vec<T>() {
         if (self.count == self.capacity) {
             self.grow();
         }
-        memory.store(self.data, value, self.offset(self.count));
+        memory.store(T, self.data, value, self.offset(self.count));
         self.count = self.count + 1;
     }
 
     fn<T> self get(int index) {
-        return memory.load(int, self.data, self.offset(index));
+        return memory.load(T, self.data, self.offset(index));
     }
 
     fn<null> self set(int index, T value) {
-        memory.store(self.data, value, self.offset(index));
+        memory.store(T, self.data, value, self.offset(index));
     }
 
     fn<T> self last() {
@@ -54,7 +54,7 @@ class Vec<T>() {
 
     fn<[]T> self toList() {
         items := [];
-        for (T i, 0..<self.count) {
+        for (int i, 0..<self.count) {
             items.push(self.get(i));
         }
         return items;
