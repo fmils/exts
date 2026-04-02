@@ -1,0 +1,71 @@
+@1.0.0
+
+module exts.vec {
+    requires libs.memory;
+}
+
+import libs.memory;
+
+class Vec<T>() {
+    fn<null> self Vec {
+        mut Pointer self.data = memory.alloc(4 * sizeOf(T));
+        mut int self.count = 0;
+        mut int self.capacity = 4;
+    }
+
+    fn<int> self size() => sizeOf(T);
+
+    fn<int> self length() => self.count;
+    
+    fn<int> self offset(int index) => index * self.size();
+
+    fn<null> self grow() {
+        _capacity := self.capacity * 2;
+        _data := memory.alloc(_capacity * self.size());
+        memory.copy(_data, self.data, self.count * self.size());
+        memory.free(self.data);
+        self.data = _data;
+        self.capacity = _capacity;
+    }
+
+    fn<null> self push(T value) {
+        if (self.count == self.capacity) {
+            self.grow();
+        }
+        memory.store(self.data, value, self.offset(self.count));
+        self.count = self.count + 1;
+    }
+
+    fn<T> self get(int index) {
+        return memory.load(int, self.data, self.offset(index));
+    }
+
+    fn<null> self set(int index, T value) {
+        memory.store(self.data, value, self.offset(index));
+    }
+
+    fn<T> self last() {
+        return self.get(self.count - 1);
+    }
+
+    fn<Buffer> self view() {
+        return memory.view(self.data, self.count * self.size());
+    }
+
+    fn<[]T> self toList() {
+        items := [];
+        for (T i, 0..<self.count) {
+            items.push(self.get(i));
+        }
+        return items;
+    }
+
+    fn<null> self free() {
+        if (!self.data.isNull()) {
+            memory.free(self.data);
+            self.data = memory.null();
+            self.count = 0;
+            self.capacity = 0;
+        }
+    }
+}
